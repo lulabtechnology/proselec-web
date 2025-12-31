@@ -1,6 +1,7 @@
 import Reveal from "@/components/shared/reveal";
 import { clients } from "@/content/site";
 import SafeImage from "@/components/shared/safe-image";
+import ClientsCarousel from "@/components/home/clients-carousel";
 
 export default function ClientsGrid() {
   return (
@@ -10,9 +11,15 @@ export default function ClientsGrid() {
           <p className="text-sm text-muted-foreground">Nuestros clientes</p>
           <h2 className="mt-2 font-display text-3xl md:text-4xl">Confianza que se sostiene</h2>
           <p className="mt-3 text-muted-foreground max-w-2xl">
-            Logos como placeholders (sube tus archivos). También listamos nombres oficialmente.
+            Carrusel de logos (placeholders) + listado oficial.
           </p>
         </Reveal>
+
+        <div className="mt-8">
+          <Reveal>
+            <ClientsCarousel />
+          </Reveal>
+        </div>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           {clients.slice(0, 12).map((c, i) => (
