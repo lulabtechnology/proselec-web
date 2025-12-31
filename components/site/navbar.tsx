@@ -42,7 +42,6 @@ function NavLinks({ onClick }: { onClick?: () => void }) {
 }
 
 function Brand() {
-  // intentamos /images/logo.png (recomendado) y si falla, /logo.png
   return (
     <Link href="/" className="flex items-center gap-3">
       <img
@@ -98,11 +97,15 @@ export default function Navbar() {
                   <Menu className="h-4 w-4" />
                 </Button>
               </SheetTrigger>
+
               <SheetContent side="right" className="w-[320px]">
                 <div className="flex items-center justify-between">
                   <Brand />
                   <SheetClose asChild>
-                    <Button variant="ghost" className="rounded-2xl">Cerrar</Button>
+                    {/* ✅ CAMBIO AQUÍ: ghost -> outline */}
+                    <Button variant="outline" className="rounded-2xl">
+                      Cerrar
+                    </Button>
                   </SheetClose>
                 </div>
 
