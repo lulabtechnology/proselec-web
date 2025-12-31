@@ -2,92 +2,129 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { nav, site, contact } from "@/content/site";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Menu, Phone, MessageCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { contact, site } from "@/content/site";
 import { telLink, waLink } from "@/lib/links";
+import { useState } from "react";
+
+const nav = [
+  { href: "/", label: "Inicio" },
+  { href: "/sobre-nosotros", label: "Sobre nosotros" },
+  { href: "/servicios", label: "Servicios" },
+  { href: "/proyectos", label: "Proyectos" },
+  { href: "/contacto", label: "Contacto" }
+];
+
+function NavLinks({ onClick }: { onClick?: () => void }) {
+  const pathname = usePathname();
+
+  return (
+    <>
+      {nav.map((item) => {
+        const active = pathname === item.href;
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            onClick={onClick}
+            className={`text-sm transition ${
+              active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {item.label}
+          </Link>
+        );
+      })}
+    </>
+  );
+}
+
+function Brand() {
+  // intentamos /images/logo.png (recomendado) y si falla, /logo.png
+  return (
+    <Link href="/" className="flex items-center gap-3">
+      <img
+        src="/images/logo.png"
+        alt={`${site.shortName} logo`}
+        className="h-9 w-auto"
+        onError={(e) => {
+          (e.currentTarget as HTMLImageElement).src = "/logo.png";
+        }}
+      />
+      <div className="leading-tight">
+        <p className="font-medium">{site.shortName}</p>
+        <p className="text-xs text-muted-foreground hidden sm:block">
+          Obras Civiles & Electromecánicas
+        </p>
+      </div>
+    </Link>
+  );
+}
 
 export default function Navbar() {
-  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
   const wa = waLink("50768527127", "Hola, quiero cotizar un proyecto con PROSELEC, S.A.");
 
   return (
-    <header className="sticky top-0 z-50 border-b">
-      <div className="glass">
-        <div className="container flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="grid h-9 w-9 place-items-center rounded-xl bg-brand-100 text-brand-800">
-              <span className="font-display text-sm">P</span>
-            </div>
-            <div className="leading-tight">
-              <p className="font-display text-sm">{site.shortName}</p>
-              <p className="text-xs text-muted-foreground">Obras Civiles & Electromecánicas</p>
-            </div>
-          </Link>
+    <header className="sticky top-0 z-50">
+      <div className="glass border-b">
+        <div className="container h-16 flex items-center justify-between gap-4">
+          <Brand />
 
-          <nav className="hidden items-center gap-1 md:flex">
-            {nav.map((i) => (
-              <Link
-                key={i.href}
-                href={i.href}
-                className={cn(
-                  "rounded-xl px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/70 transition",
-                  pathname === i.href && "text-foreground bg-muted"
-                )}
-              >
-                {i.label}
-              </Link>
-            ))}
+          <nav className="hidden md:flex items-center gap-6">
+            <NavLinks />
           </nav>
 
-          <div className="hidden items-center gap-2 md:flex">
-            <Button variant="outline" asChild className="rounded-xl">
+          <div className="hidden md:flex items-center gap-2">
+            <Button variant="outline" asChild className="rounded-2xl">
               <a href={telLink(contact.phones[0])}>
                 <Phone className="mr-2 h-4 w-4" /> Llamar
               </a>
             </Button>
-            <Button asChild className="rounded-xl shadow-glow">
+            <Button asChild className="rounded-2xl shadow-glow">
               <a href={wa} target="_blank" rel="noreferrer">
                 <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp
               </a>
             </Button>
           </div>
 
-          <Sheet>
-            <SheetTrigger asChild className="md:hidden">
-              <Button variant="outline" size="icon" className="rounded-xl">
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[320px]">
-              <div className="mt-6 space-y-2">
-                {nav.map((i) => (
-                  <Link
-                    key={i.href}
-                    href={i.href}
-                    className={cn(
-                      "block rounded-xl px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/70 transition",
-                      pathname === i.href && "text-foreground bg-muted"
-                    )}
-                  >
-                    {i.label}
-                  </Link>
-                ))}
-              </div>
-              <div className="mt-6 grid gap-2">
-                <Button variant="outline" asChild className="rounded-xl">
-                  <a href={telLink(contact.phones[0])}><Phone className="mr-2 h-4 w-4" /> Llamar</a>
+          {/* Mobile */}
+          <div className="md:hidden">
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" className="rounded-2xl">
+                  <Menu className="h-4 w-4" />
                 </Button>
-                <Button asChild className="rounded-xl shadow-glow">
-                  <a href={wa} target="_blank" rel="noreferrer">
-                    <MessageCircle className="mr-2 h-4 w-4" /> Cotizar por WhatsApp
-                  </a>
-                </Button>
-              </div>
-            </SheetContent>
-          </Sheet>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[320px]">
+                <div className="flex items-center justify-between">
+                  <Brand />
+                  <SheetClose asChild>
+                    <Button variant="ghost" className="rounded-2xl">Cerrar</Button>
+                  </SheetClose>
+                </div>
+
+                <div className="mt-6 grid gap-4">
+                  <NavLinks onClick={() => setOpen(false)} />
+                </div>
+
+                <div className="mt-6 grid gap-2">
+                  <Button asChild className="rounded-2xl shadow-glow">
+                    <a href={wa} target="_blank" rel="noreferrer">
+                      <MessageCircle className="mr-2 h-4 w-4" /> Cotizar por WhatsApp
+                    </a>
+                  </Button>
+                  <Button variant="outline" asChild className="rounded-2xl">
+                    <a href={telLink(contact.phones[0])}>
+                      <Phone className="mr-2 h-4 w-4" /> Llamar
+                    </a>
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>
