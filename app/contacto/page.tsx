@@ -1,7 +1,7 @@
 import PageHero from "@/components/shared/page-hero";
 import { contact } from "@/content/site";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import ContactStrip from "@/components/home/contact-strip";
+import ContactForm from "@/components/contact/contact-form";
 
 export const metadata = { title: "Contacto" };
 
@@ -35,13 +35,20 @@ export default function ContactPage() {
                   ))}
                 </ul>
               </div>
+
+              <div className="mt-5 pt-5 border-t">
+                <p className="font-medium text-foreground">Mapa</p>
+                <p className="mt-2 text-sm">
+                  (Opcional) Puedes incrustar Google Maps aquí luego o enlazar a Maps.
+                </p>
+              </div>
             </CardContent>
           </Card>
 
-          {/* Reutilizamos el bloque premium con formulario + CTAs */}
-          <div className="md:pt-0">
-            <ContactStrip />
-          </div>
+          <ContactForm
+            title="Cotiza aquí"
+            subtitle="Déjanos tu mensaje y se abrirá WhatsApp con el texto listo para enviar."
+          />
         </div>
       </section>
     </main>
