@@ -14,7 +14,6 @@
   --primary-foreground: 210 40% 98%;
   --ring: 197 90% 42%;
 
-  /* Paleta teal/azul premium */
   --brand-50: 192 80% 97%;
   --brand-100: 191 78% 92%;
   --brand-200: 191 70% 84%;
@@ -28,7 +27,6 @@
 }
 
 *{ -webkit-tap-highlight-color: transparent; }
-
 html, body { height: 100%; }
 body{
   background: hsl(var(--background));
@@ -52,4 +50,18 @@ body{
   .section {
     @apply py-16 md:py-24;
   }
+}
+
+/* Marquee (clientes) */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee {
+  overflow: hidden;
+}
+.marquee-track {
+  display: inline-flex;
+  width: max-content;
+  animation: marquee 26s linear infinite;
 }
