@@ -52,17 +52,16 @@ export default function ContactForm({
             <Input name="email" placeholder="Email" type="email" required />
           </div>
           <Textarea name="message" placeholder="Cuéntanos qué necesitas…" rows={5} required />
+
           <Button type="submit" className="rounded-2xl shadow-glow">
             <MessageCircle className="mr-2 h-4 w-4" /> Enviar por WhatsApp
           </Button>
+
           <Button type="button" variant="secondary" asChild className="rounded-2xl">
             <a href={mailto}>
               <Mail className="mr-2 h-4 w-4" /> Enviar por correo
             </a>
           </Button>
-          <p className="text-xs text-muted-foreground">
-            * Endpoint opcional preparado: <code>/api/contact</code> (no obligatorio).
-          </p>
         </form>
       </CardContent>
     </Card>
