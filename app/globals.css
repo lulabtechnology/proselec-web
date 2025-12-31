@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --background: 210 40% 98%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --border: 214 32% 91%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --primary: 197 90% 42%;
+  --primary-foreground: 210 40% 98%;
+  --ring: 197 90% 42%;
+
+  /* Paleta teal/azul premium */
+  --brand-50: 192 80% 97%;
+  --brand-100: 191 78% 92%;
+  --brand-200: 191 70% 84%;
+  --brand-300: 190 64% 72%;
+  --brand-400: 190 60% 56%;
+  --brand-500: 189 70% 42%;
+  --brand-600: 190 80% 34%;
+  --brand-700: 191 85% 28%;
+  --brand-800: 192 85% 22%;
+  --brand-900: 193 90% 16%;
+}
+
+*{ -webkit-tap-highlight-color: transparent; }
+
+html, body { height: 100%; }
+body{
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+@layer components{
+  .bg-hero {
+    background:
+      radial-gradient(1200px 600px at 15% 20%, rgba(20,184,166,.18), transparent 60%),
+      radial-gradient(900px 500px at 80% 10%, rgba(14,165,233,.18), transparent 55%),
+      linear-gradient(to bottom, rgba(2,6,23,.92), rgba(2,6,23,.65));
+  }
+
+  .glass {
+    background: rgba(255,255,255,.65);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(148,163,184,.25);
+  }
+
+  .section {
+    @apply py-16 md:py-24;
+  }
+}
