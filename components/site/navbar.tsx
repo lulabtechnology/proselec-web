@@ -12,7 +12,26 @@ const NAV = [
   { href: "/contacto", label: "Contacto" },
 ];
 
+function getPhoneHref() {
+  // Preferimos E.164 si existe
+  const e164 = (CONTACT as any)?.phoneE164 as string | undefined;
+  const display = (CONTACT as any)?.phoneDisplay as string | undefined;
+
+  const raw = e164 || display || "";
+  // normalizar por si viene con espacios o guiones
+  const normalized = raw.replace(/[^\d+]/g, "");
+  return normalized ? `tel:${normalized}` : "tel:+50768527127";
+}
+
+function getWhatsappHref() {
+  const wa = (CONTACT as any)?.whatsapp as string | undefined;
+  return wa || "https://wa.me/50768527127";
+}
+
 export default function Navbar() {
+  const phoneHref = getPhoneHref();
+  const whatsappHref = getWhatsappHref();
+
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
@@ -32,12 +51,13 @@ export default function Navbar() {
 
         <div className="flex items-center gap-2">
           <Button asChild variant="outline" className="hidden sm:inline-flex">
-            <a href={`tel:${CONTACT.phone}`} aria-label="Llamar">
+            <a href={phoneHref} aria-label="Llamar">
               Llamar
             </a>
           </Button>
+
           <Button asChild>
-            <a href={CONTACT.whatsapp} target="_blank" rel="noreferrer" aria-label="WhatsApp">
+            <a href={whatsappHref} target="_blank" rel="noreferrer" aria-label="WhatsApp">
               WhatsApp
             </a>
           </Button>
