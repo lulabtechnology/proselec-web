@@ -6,7 +6,7 @@ import {
   Fan,
   Flame,
   HardHat,
-  Pipe,
+  Pipette, // ✅ CAMBIO
   Wrench,
   Zap,
 } from "lucide-react";
@@ -23,7 +23,7 @@ const iconMap = {
   Flame,
   Building2,
   Fan,
-  Pipe,
+  Pipette, // ✅ CAMBIO
 } as const;
 
 export default function ServiciosPage() {
