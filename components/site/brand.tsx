@@ -1,20 +1,54 @@
-import Link from "next/link";
+"use client";
 
-export function Brand() {
+import Link from "next/link";
+import { useMemo, useState } from "react";
+
+type BrandProps = {
+  className?: string;
+  compact?: boolean;
+};
+
+const LOGO_CANDIDATES = [
+  "/logo.png",
+  "/images/logo.png",
+  "/logo.svg",
+  "/images/logo.svg",
+];
+
+export default function Brand({ className = "", compact = false }: BrandProps) {
+  const [idx, setIdx] = useState(0);
+
+  const src = useMemo(() => {
+    return LOGO_CANDIDATES[Math.min(idx, LOGO_CANDIDATES.length - 1)];
+  }, [idx]);
+
   return (
-    <Link href="/" className="flex items-center gap-3">
-      <img
-        src="/logo.png"
-        alt="PROSELEC logo"
-        className="h-10 w-10 rounded-md object-contain bg-white/60"
-        onError={(e) => {
-          (e.currentTarget as HTMLImageElement).src = "/images/logo.png";
-        }}
-      />
-      <div className="leading-tight">
-        <div className="font-semibold">PROSELEC, S.A.</div>
-        <div className="text-xs text-muted-foreground">Obras Civiles &amp; Electromecánicas</div>
+    <Link
+      href="/"
+      aria-label="Ir al inicio"
+      className={`flex items-center gap-3 ${className}`}
+    >
+      <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200">
+        <img
+          src={src}
+          alt="PROSELEC, S.A."
+          className="h-full w-full object-contain p-1.5"
+          onError={() => {
+            setIdx((i) => (i + 1 < LOGO_CANDIDATES.length ? i + 1 : i));
+          }}
+        />
       </div>
+
+      {!compact && (
+        <div className="leading-tight">
+          <div className="text-sm font-semibold tracking-tight text-slate-900">
+            PROSELEC, S.A.
+          </div>
+          <div className="text-xs text-slate-600">
+            Obras Civiles &amp; Electromecánicas
+          </div>
+        </div>
+      )}
     </Link>
   );
 }
