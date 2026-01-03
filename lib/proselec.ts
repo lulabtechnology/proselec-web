@@ -1,163 +1,96 @@
 // lib/proselec.ts
-export const COMPANY = {
-  name: "PROSELEC, S.A.",
-  legalName: "PROYECTOS Y SERVICIOS ELECTROMECÁNICOS, S.A.",
-  tagline: "Obras Civiles, Arquitectura y Obras Electromecánicas.",
-  foundedYear: 2011,
-  website: "www.proselecpanama.es",
-  address:
-    "Calle Ave. Rodolfo Girón, Santiago Veraguas, Edificio Eléctrico Santiago, Local N° 2.",
-} as const;
+import { contact, site } from "@/content/site";
 
-export const CONTACT = {
-  phoneDisplay: "6852-7127",
-  phoneE164: "+50768527127",
-  email: "COLOCAR_CORREO_AQUI@DOMINIO.COM",
-  mapQuery:
-    "Calle Ave. Rodolfo Girón, Santiago Veraguas, Edificio Eléctrico Santiago, Local N° 2.",
-} as const;
-
-export type Service = {
-  title: string;
-  description: string;
-  bullets: string[];
-  icon:
-    | "HardHat"
-    | "Zap"
-    | "Wrench"
-    | "Droplets"
-    | "Flame"
-    | "Building2"
-    | "Fan"
-    | "Pipette"; // ✅ CAMBIO aquí
-};
-
-export const SERVICES: Service[] = [
-  {
-    title: "Obras civiles",
-    description: "Ejecución y mejora de infraestructura con enfoque en calidad y seguridad.",
-    bullets: ["Construcción y remodelación", "Acabados y pavimentación", "Impermeabilización"],
-    icon: "HardHat",
-  },
-  {
-    title: "Instalaciones eléctricas",
-    description: "Diseño, instalación y mantenimiento eléctrico para proyectos comerciales e industriales.",
-    bullets: ["Tableros y canalizaciones", "Alumbrado y fuerza", "Sistemas especiales"],
-    icon: "Zap",
-  },
-  {
-    title: "Servicios auxiliares",
-    description: "Soporte técnico complementario para obra civil y electromecánica.",
-    bullets: ["Mantenimiento general", "Adecuaciones técnicas", "Soporte en sitio"],
-    icon: "Wrench",
-  },
-  {
-    title: "Render y Diseño Arquitectónico",
-    description: "Diseño, documentación y visualización 3D para presentar y ejecutar proyectos con claridad.",
-    bullets: [
-      "Renders y visualizaciones 3D",
-      "Planos arquitectónicos",
-      "Documentación técnica y especificaciones",
-      "Coordinación e integración de especialidades",
-    ],
-    icon: "Building2",
-  },
-  {
-    title: "Sistemas sanitarios",
-    description: "Instalación y adecuaciones sanitarias para edificaciones y obras civiles.",
-    bullets: ["Redes sanitarias (aguas negras)", "Acueductos / agua potable", "Instalaciones y pruebas"],
-    icon: "Pipette", // ✅ CAMBIO aquí
-  },
-  {
-    title: "Sistemas pluviales",
-    description: "Soluciones de drenaje pluvial para captación y conducción eficiente.",
-    bullets: ["Drenajes pluviales", "Canalizaciones y bajantes", "Adecuaciones y mantenimiento"],
-    icon: "Droplets",
-  },
-  {
-    title: "Sistema de gas licuado",
-    description: "Instalación y adecuación de redes y equipos de gas según necesidad del proyecto.",
-    bullets: ["Instalación y adecuación", "Pruebas y ajustes", "Soporte en sitio"],
-    icon: "Fan",
-  },
-  {
-    title: "Sistemas contra incendio",
-    description: "Instalación, adecuación y soporte para sistemas húmedos contra incendio.",
-    bullets: [
-      "BIE, rociadores e hidrantes",
-      "Sistema húmedo contra incendio",
-      "Suministro, Instalación y Certificación de Bombas Contra Incendio",
-      "Sistema contra incendio C900",
-    ],
-    icon: "Flame",
-  },
-];
+export const SITE = site;
+export const CONTACT = contact;
 
 export type Project = {
   title: string;
   subtitle: string;
-  image: string;
+  category: string;
+  image: string; // SIEMPRE con "/" al inicio
 };
 
 export const PROJECTS: Project[] = [
+  // ✅ NUEVOS (sube estas 2 imágenes como project-13 y project-14)
+  {
+    title: "Diseños y Render Arquitectónico",
+    subtitle: "Modelado y visualización para presentación profesional de proyectos.",
+    category: "Arquitectura",
+    image: "/images/projects/project-13.jpg",
+  },
+  {
+    title: "Suministro, Instalación y Certificación de Bombas Contra Incendio",
+    subtitle: "Montaje, pruebas y certificación conforme a normativa NFPA.",
+    category: "Contra Incendio",
+    image: "/images/projects/project-14.jpg",
+  },
+
+  // ✅ EXISTENTES (rutas ABSOLUTAS para que no se dañen en /proyectos)
   {
     title: "Sistema Húmedo contra Incendio en la Unidad de Hemodiálisis Chitré–Soná",
-    subtitle: "Instalación y adecuación del sistema húmedo contra incendio",
+    subtitle: "Instalación y adecuación del sistema húmedo contra incendio.",
+    category: "Contra Incendio",
     image: "/images/projects/project-01.jpg",
   },
   {
     title: "Sistema Eléctrico y Sistemas Especiales — Unidad Hemodiálisis (Chitré, Santiago, Soná)",
-    subtitle: "Ejecución eléctrica y sistemas especiales",
+    subtitle: "Ejecución eléctrica y sistemas especiales.",
+    category: "Electromecánica",
     image: "/images/projects/project-02.jpg",
   },
   {
     title: "Construcción de Edificio Eléctrico (Santiago, Veraguas)",
-    subtitle: "Obra civil e infraestructura",
+    subtitle: "Obra civil e infraestructura.",
+    category: "Obra Civil",
     image: "/images/projects/project-03.jpg",
   },
   {
     title: "Residencial Villa Venecia (Chitré, Herrera)",
-    subtitle: "Construcción y acabados",
+    subtitle: "Construcción y acabados.",
+    category: "Obra Civil",
     image: "/images/projects/project-04.jpg",
   },
   {
     title: "Sistema de Drenaje Estadio Ramón Cantera (Aguadulce)",
-    subtitle: "Sistema pluvial / drenaje",
-    image: "/images/projects/project-drenaje-ramon-cantera.jpg",
-  },
-  {
-    title: "Remodelación de Parque Pocrí (Coclé)",
-    subtitle: "Mejoras y adecuaciones",
-    image: "/images/projects/project-06.jpg",
-  },
-  {
-    title: "Paradores fotográficos, pavimentación, acabados, impermeabilización de losas, cobertizos",
-    subtitle: "Obra civil",
-    image: "/images/projects/project-07.jpg",
-  },
-  {
-    title: "Estructura para tanque de agua",
-    subtitle: "Estructura y soporte",
-    image: "/images/projects/project-08.jpg",
-  },
-  {
-    title: "Proyecto Terminal de Transporte Penonomé: sistema sanitario / acueducto potable / sistema contra incendio",
-    subtitle: "Sanitario, acueducto y contra incendio",
-    image: "/images/projects/project-09.jpg",
-  },
-  {
-    title: "Proyecto Estadio Toco Castillo: sistema húmedo contra incendio",
-    subtitle: "Sistema húmedo contra incendio",
+    subtitle: "Sistema pluvial / drenaje.",
+    category: "Obra Civil",
     image: "/images/projects/project-05.jpg",
   },
   {
-    title: "Proyecto Museo Julio Gomez Ruiz: mejoras al museo",
-    subtitle: "Remodelación / mejoras",
-    image: "/images/projects/project-11.jpg",
+    title: "Remodelación de Parque Pocrí (Coclé)",
+    subtitle: "Mejoras y adecuaciones.",
+    category: "Mantenimiento",
+    image: "/images/projects/project-06.jpg",
   },
   {
-    title: "Servicios de instalación de sistema de gas licuado (PH Punta Prieta / PH City Tower)",
-    subtitle: "Instalación de gas licuado",
-    image: "/images/projects/project-12.jpg",
+    title: "Sistema de Gas Licuado — Edificio Eléctrico (Santiago)",
+    subtitle: "Instalación y adecuación de sistema de gas.",
+    category: "Gas",
+    image: "/images/projects/project-07.jpg",
+  },
+  {
+    title: "Instalación de Acueducto — Escuela de Las Peanas (Los Santos)",
+    subtitle: "Tuberías, zanjas y accesorios.",
+    category: "Obra Civil",
+    image: "/images/projects/project-08.jpg",
+  },
+  {
+    title: "Construcción / Remodelación — Estación de Bomberos (UNES)",
+    subtitle: "Adecuaciones y obra civil.",
+    category: "Obra Civil",
+    image: "/images/projects/project-09.jpg",
+  },
+  {
+    title: "Demolición Controlada de Estructuras",
+    subtitle: "Demolición y retiro de material.",
+    category: "Obra Civil",
+    image: "/images/projects/project-10.jpg",
+  },
+  {
+    title: "Construcción de Tanques y Estructuras Metálicas",
+    subtitle: "Fabricación e instalación.",
+    category: "Estructuras",
+    image: "/images/projects/project-11.jpg",
   },
 ];
