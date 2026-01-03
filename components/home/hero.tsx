@@ -1,75 +1,93 @@
 "use client";
 
-import HeroSlider from "@/components/home/hero-slider";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Phone, MessageCircle } from "lucide-react";
-import { contact, site } from "@/content/site";
-import { telLink, waLink } from "@/lib/links";
-import { motion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
+
+const SLIDES = [
+  { src: "/images/hero/slide-1.jpg", alt: "Proyecto PROSELEC 1" },
+  { src: "/images/hero/slide-2.jpg", alt: "Proyecto PROSELEC 2" },
+  { src: "/images/hero/slide-3.jpg", alt: "Proyecto PROSELEC 3" },
+];
 
 export default function Hero() {
-  const wa = waLink("50768527127", "Hola, quiero cotizar un proyecto con PROSELEC, S.A.");
+  const slides = useMemo(() => SLIDES, []);
+  const [idx, setIdx] = useState(0);
 
-  const slides = [
-    {
-      key: "s1",
-      image: "/images/hero/slide-1.jpg",
-      eyebrow: `${site.shortName} · Fundada ${site.founded}`,
-      title: "PROYECTOS Y SERVICIOS ELECTROMECÁNICOS, S.A.",
-      subtitle:
-        "Empresa panameña enfocada en obras civiles y electromecánicas. Diseño, planificación, construcción y mantenimiento con enfoque en calidad y seguridad."
-    },
-    {
-      key: "s2",
-      image: "/images/hero/slide-2.jpg",
-      eyebrow: "Obras Civiles · Arquitectura · Electromecánica",
-      title: "Ejecución profesional, resultados confiables.",
-      subtitle:
-        "Soluciones integrales para edificios, plazas comerciales, oficinas, parques y naves industriales, además de instalaciones especializadas."
-    },
-    {
-      key: "s3",
-      image: "/images/hero/slide-3.jpg",
-      eyebrow: "Cotiza hoy",
-      title: "Ingeniería aplicada a tu proyecto.",
-      subtitle:
-        "Atención directa por WhatsApp o llamada. Te acompañamos desde el estudio técnico hasta la entrega y mantenimiento."
-    }
-  ];
+  useEffect(() => {
+    const t = setInterval(() => setIdx((p) => (p + 1) % slides.length), 5000);
+    return () => clearInterval(t);
+  }, [slides.length]);
 
   return (
-    <section className="relative">
-      <HeroSlider slides={slides} />
-
-      <div className="absolute inset-x-0 bottom-10 md:bottom-12">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-wrap gap-3"
+    <section className="relative overflow-hidden">
+      <div className="relative h-[560px] w-full sm:h-[620px]">
+        {slides.map((s, i) => (
+          <div
+            key={s.src}
+            className={[
+              "absolute inset-0 transition-opacity duration-1000 ease-in-out",
+              i === idx ? "opacity-100" : "opacity-0",
+            ].join(" ")}
           >
-            <Button asChild className="rounded-2xl shadow-glow">
-              <a href={wa} target="_blank" rel="noreferrer">
-                <MessageCircle className="mr-2 h-4 w-4" /> Cotizar por WhatsApp
-              </a>
-            </Button>
-            <Button
-              variant="outline"
-              asChild
-              className="rounded-2xl bg-white/10 text-white border-white/20 hover:bg-white/15"
-            >
-              <a href={telLink(contact.phones[0])}>
-                <Phone className="mr-2 h-4 w-4" /> Llamar
-              </a>
-            </Button>
-            <Button variant="secondary" asChild className="rounded-2xl">
-              <Link href="/servicios">
-                Ver servicios <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </motion.div>
+            <Image
+              src={s.src}
+              alt={s.alt}
+              fill
+              priority={i === 0}
+              sizes="100vw"
+              className="object-cover"
+            />
+          </div>
+        ))}
+
+        {/* overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/40 to-white/0" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,.18),transparent_40%)]" />
+
+        {/* content */}
+        <div className="absolute inset-0">
+          <div className="mx-auto flex h-full max-w-6xl items-center px-4">
+            <div className="max-w-2xl">
+              <p className="mb-3 inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs text-white/90 ring-1 ring-white/15">
+                Obras civiles • Electromecánica • Sistemas especiales
+              </p>
+
+              <h1 className="text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+                Soluciones integrales en construcción e instalaciones
+              </h1>
+
+              <p className="mt-4 text-pretty text-base text-white/85 sm:text-lg">
+                Diseño, ejecución y mantenimiento con enfoque en seguridad, cumplimiento técnico y
+                entrega a tiempo.
+              </p>
+
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Button asChild className="h-11 px-6">
+                  <Link href="/contacto">Cotizar</Link>
+                </Button>
+                <Button asChild variant="outline" className="h-11 px-6 bg-white/10 text-white ring-white/20 hover:bg-white/15">
+                  <Link href="/proyectos">Ver proyectos</Link>
+                </Button>
+              </div>
+
+              {/* mini dots */}
+              <div className="mt-7 flex gap-2">
+                {slides.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setIdx(i)}
+                    className={[
+                      "h-2 w-2 rounded-full transition-all",
+                      i === idx ? "bg-white" : "bg-white/40 hover:bg-white/60",
+                    ].join(" ")}
+                    aria-label={`Ir al slide ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
