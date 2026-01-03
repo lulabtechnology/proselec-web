@@ -1,22 +1,19 @@
 "use client";
 
-import HeroSlider from "@/components/home/hero-slider";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowRight, Phone, MessageCircle } from "lucide-react";
-import { contact, site } from "@/content/site";
+import HeroSlider from "@/components/home/hero-slider";
+import { site, contact } from "@/content/site";
 import { telLink, waLink } from "@/lib/links";
-import { motion } from "framer-motion";
 
 export default function Hero() {
   const wa = waLink(contact.whatsappDigits, "Hola, quiero cotizar un proyecto con PROSELEC, S.A.");
+  const call = telLink(contact.phoneE164);
 
-  // ✅ OJO: rutas con "/" porque están en /public
   const slides = [
     {
       key: "s1",
       image: "/images/hero/slide-1.jpg",
-      eyebrow: `${site.shortName} · Fundada`,
+      eyebrow: `${site.shortName} · Fundada ${site.founded}`,
       title: "PROYECTOS Y SERVICIOS ELECTROMECÁNICOS, S.A.",
       subtitle:
         "Empresa panameña enfocada en obras civiles y electromecánicas. Diseño, planificación, construcción y mantenimiento.",
@@ -27,49 +24,57 @@ export default function Hero() {
       eyebrow: "Obras Civiles · Arquitectura · Electromecánica",
       title: "Ejecución profesional, resultados confiables.",
       subtitle:
-        "Soluciones integrales para edificios, plazas comerciales, oficinas, parques y naves industriales, cumpliendo tiempos y estándares.",
+        "Soluciones integrales para edificios, plazas comerciales, oficinas, parques y naves industriales.",
     },
     {
       key: "s3",
       image: "/images/hero/slide-3.jpg",
       eyebrow: "Cotiza hoy",
-      title: "Sistema contra incendios, eléctricos y obras civiles.",
+      title: "Atención rápida y asesoría clara.",
       subtitle:
-        "Atendemos proyectos a nivel nacional. Contáctanos para evaluar tu requerimiento y prepararte una propuesta formal.",
+        "Cuéntanos tu necesidad y te orientamos con una propuesta según alcance, tiempos y presupuesto.",
     },
   ];
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative">
       <HeroSlider slides={slides} />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-10 pt-6">
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          className="mt-4 flex flex-wrap items-center gap-3"
-        >
-          <Button asChild className="gap-2">
-            <Link href="/contacto">
-              Cotizar <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Button>
+      <div className="absolute inset-0">
+        <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
+          <div className="max-w-2xl text-white">
+            <p className="text-sm opacity-90">{slides[0].eyebrow}</p>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
+              {slides[0].title}
+            </h1>
+            <p className="mt-4 text-base opacity-90 md:text-lg">{slides[0].subtitle}</p>
 
-          <Button asChild variant="outline" className="gap-2">
-            <a href={wa} target="_blank" rel="noreferrer" aria-label="WhatsApp">
-              <MessageCircle className="h-4 w-4" />
-              WhatsApp
-            </a>
-          </Button>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                href="/contacto"
+                className="rounded-xl bg-white/90 px-5 py-3 text-sm font-semibold text-black hover:bg-white"
+              >
+                Cotizar
+              </Link>
 
-          <Button asChild variant="outline" className="gap-2">
-            <a href={telLink(contact.phoneE164)} aria-label="Llamar">
-              <Phone className="h-4 w-4" />
-              Llamar
-            </a>
-          </Button>
-        </motion.div>
+              <a
+                href={wa}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-xl bg-emerald-500/90 px-5 py-3 text-sm font-semibold text-black hover:bg-emerald-500"
+              >
+                WhatsApp
+              </a>
+
+              <a
+                href={call}
+                className="rounded-xl bg-white/10 px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/20 hover:bg-white/15"
+              >
+                Llamar
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
