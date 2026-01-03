@@ -1,9 +1,4 @@
-// content/site.ts
-
-const emails = ["info@proselec.com"] as const; // <-- cámbialo si tienes otro
-const phoneDisplay = "6852-7127" as const;
-const phoneE164 = "+50768527127" as const;
-const whatsappDigits = "50768527127" as const;
+// /content/site.ts
 
 export const site = {
   name: "PROSELEC, S.A.",
@@ -12,23 +7,32 @@ export const site = {
   description:
     "Empresa panameña enfocada en obras civiles y electromecánicas. Diseño, planificación, construcción y mantenimiento.",
   about:
-    "PROSELEC, S.A. brinda soluciones integrales en obras civiles, instalaciones eléctricas, sistemas especiales y protección contra incendios. Trabajamos con enfoque en calidad, seguridad y cumplimiento.",
-  url: "https://proselec-web.vercel.app",
-  founded: 2015, // <-- si el año real es otro, cámbialo
+    "Fundada en 2011, Proyecto y Servicios Electromecánicos, S.A. (PROSELEC, S.A.) es una empresa panameña que desarrolla su actividad dentro del campo de Obras Civiles, Arquitectura y Obras Electromecánicas. Esta empresa se crea a partir de la necesidad de cubrir sectores de las instalaciones poco atendidos debido al alto grado de especialización que requieren, al desarrollo de Sistemas Electromecánicos y la Construcción de Obras Civiles en General.",
+  // Del PDF:
+  mission:
+    "Brindar un servicio de calidad en el estudio técnico para el diseño, planificación, construcción, equipamiento y mantenimiento de proyectos de obra civil e instalaciones electromecánicas.",
+  vision:
+    "Ser una empresa reconocida en el país por ofrecer un servicio de calidad, seguridad y confiable en todas las soluciones de ingeniería. Destacando en la innovación tecnológica de vanguardia para un mejor servicio a nuestros clientes.",
+  founded: 2011,
+  url: "https://www.proselecpanama.es",
 } as const;
 
 export const contact = {
-  phoneDisplay,
-  phoneE164,
-  phone: phoneE164,              // para componentes que usan CONTACT.phone
-  phones: [phoneE164] as const,  // para tu JSON-LD: contact.phones
+  // Principal (Samuel Rodríguez)
+  phoneDisplay: "6852-7127",
+  phoneE164: "+50768527127",
+  phone: "+50768527127",
 
-  whatsappDigits,
-  whatsappE164: `+${whatsappDigits}` as const,
+  // WhatsApp (mismo número principal)
+  whatsappDigits: "50768527127",
+  whatsappE164: "+50768527127",
 
-  emails,
-  email: emails[0],              // <-- ESTO arregla el error CONTACT.email
+  // Para JSON-LD + si luego quieres mostrar ambos:
+  phones: ["+507 6852-7127", "+507 6245-5732"],
 
-  address: "Santiago, Veraguas, Panamá",
-  mapQuery: "PROSELEC Santiago Veraguas Panamá",
+  emails: ["heproselec@gmail.com", "proyectosyservicioselec@gmail.com"],
+
+  address: "Calle Ave. Rodolfo Girón, Santiago Veraguas, Edificio Eléctrico Santiago, Local N° 2.",
+  mapQuery:
+    "Calle Ave. Rodolfo Girón, Santiago Veraguas, Edificio Eléctrico Santiago, Local N° 2.",
 } as const;
