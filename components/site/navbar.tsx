@@ -3,61 +3,33 @@ import Link from "next/link";
 import Brand from "@/components/site/brand";
 import { Button } from "@/components/ui/button";
 import { CONTACT } from "@/lib/proselec";
-
-const NAV = [
-  { href: "/", label: "Inicio" },
-  { href: "/sobre-nosotros", label: "Sobre nosotros" },
-  { href: "/servicios", label: "Servicios" },
-  { href: "/proyectos", label: "Proyectos" },
-  { href: "/contacto", label: "Contacto" },
-];
-
-function getPhoneHref() {
-  // Preferimos E.164 si existe
-  const e164 = (CONTACT as any)?.phoneE164 as string | undefined;
-  const display = (CONTACT as any)?.phoneDisplay as string | undefined;
-
-  const raw = e164 || display || "";
-  // normalizar por si viene con espacios o guiones
-  const normalized = raw.replace(/[^\d+]/g, "");
-  return normalized ? `tel:${normalized}` : "tel:+50768527127";
-}
-
-function getWhatsappHref() {
-  const wa = (CONTACT as any)?.whatsapp as string | undefined;
-  return wa || "https://wa.me/50768527127";
-}
+import { waLink } from "@/lib/links";
 
 export default function Navbar() {
-  const phoneHref = getPhoneHref();
-  const whatsappHref = getWhatsappHref();
+  const phoneDigits = (CONTACT.phoneE164 ?? "").replace(/[^\d]/g, "");
+  const telHref = `tel:${CONTACT.phoneE164}`;
+  const waHref = waLink(phoneDigits, "Hola, quiero cotizar un proyecto con PROSELEC, S.A.");
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+    <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Brand />
 
         <nav className="hidden items-center gap-6 md:flex">
-          {NAV.map((i) => (
-            <Link
-              key={i.href}
-              href={i.href}
-              className="text-sm text-slate-600 hover:text-slate-900"
-            >
-              {i.label}
-            </Link>
-          ))}
+          <Link className="text-sm text-slate-700 hover:text-slate-900" href="/">Inicio</Link>
+          <Link className="text-sm text-slate-700 hover:text-slate-900" href="/sobre-nosotros">Sobre nosotros</Link>
+          <Link className="text-sm text-slate-700 hover:text-slate-900" href="/servicios">Servicios</Link>
+          <Link className="text-sm text-slate-700 hover:text-slate-900" href="/proyectos">Proyectos</Link>
+          <Link className="text-sm text-slate-700 hover:text-slate-900" href="/contacto">Contacto</Link>
         </nav>
 
         <div className="flex items-center gap-2">
           <Button asChild variant="outline" className="hidden sm:inline-flex">
-            <a href={phoneHref} aria-label="Llamar">
-              Llamar
-            </a>
+            <a href={telHref} aria-label="Llamar">Llamar</a>
           </Button>
 
-          <Button asChild>
-            <a href={whatsappHref} target="_blank" rel="noreferrer" aria-label="WhatsApp">
+          <Button asChild className="bg-sky-600 hover:bg-sky-700">
+            <a href={waHref} target="_blank" rel="noreferrer" aria-label="WhatsApp">
               WhatsApp
             </a>
           </Button>
