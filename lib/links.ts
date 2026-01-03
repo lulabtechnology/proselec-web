@@ -1,12 +1,15 @@
-export function waLink(phoneE164Digits: string, text: string) {
-  const q = encodeURIComponent(text);
-  return `https://wa.me/${phoneE164Digits}?text=${q}`;
+// lib/links.ts
+export function telLink(phoneE164: string) {
+  const clean = phoneE164.replace(/\s+/g, "");
+  return `tel:${clean}`;
 }
 
-export function telLink(phone: string) {
-  return `tel:${phone.replace(/\s/g, "")}`;
+export function waLink(whatsappDigits: string, message?: string) {
+  const digits = whatsappDigits.replace(/\D/g, "");
+  const q = message ? `?text=${encodeURIComponent(message)}` : "";
+  return `https://wa.me/${digits}${q}`;
 }
 
-export function mailtoLink(email: string, subject: string, body: string) {
-  return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+export function mailLink(email: string) {
+  return `mailto:${email}`;
 }
