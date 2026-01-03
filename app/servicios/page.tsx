@@ -1,36 +1,65 @@
-import PageHero from "@/components/shared/page-hero";
-import { services } from "@/content/site";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+// app/servicios/page.tsx
+import { SERVICES } from "@/lib/proselec";
+import {
+  Building2,
+  Droplets,
+  Fan,
+  Flame,
+  HardHat,
+  Pipe,
+  Wrench,
+  Zap,
+} from "lucide-react";
 
-export const metadata = { title: "Servicios" };
+export const metadata = {
+  title: "Servicios | PROSELEC, S.A.",
+};
 
-export default function ServicesPage() {
+const iconMap = {
+  HardHat,
+  Zap,
+  Wrench,
+  Droplets,
+  Flame,
+  Building2,
+  Fan,
+  Pipe,
+} as const;
+
+export default function ServiciosPage() {
   return (
-    <main>
-      <PageHero
-        title="Servicios"
-        subtitle="Soluciones integrales para obras civiles e instalaciones electromecánicas."
-      />
+    <main className="py-14">
+      <div className="mx-auto max-w-6xl px-4">
+        <h1 className="text-3xl font-semibold">Servicios</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Capacidades y soluciones para obra civil, arquitectura y sistemas electromecánicos.
+        </p>
 
-      <section className="section">
-        <div className="container grid gap-6 md:grid-cols-2">
-          {services.map((s) => (
-            <Card key={s.title} className="rounded-2xl shadow-soft">
-              <CardHeader className="flex flex-row items-center gap-3">
-                <div className="grid h-10 w-10 place-items-center rounded-xl bg-brand-100 text-brand-800">
-                  <s.icon className="h-5 w-5" />
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          {SERVICES.map((s) => {
+            const Icon = iconMap[s.icon];
+            return (
+              <div key={s.title} className="rounded-xl border p-6">
+                <div className="flex items-start gap-3">
+                  <div className="rounded-lg border bg-muted/40 p-2">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-lg font-semibold">{s.title}</div>
+                    <div className="mt-1 text-sm text-muted-foreground">{s.description}</div>
+                  </div>
                 </div>
-                <CardTitle className="font-display">{s.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="list-disc pl-5 text-muted-foreground space-y-2">
-                  {s.bullets.map((b) => <li key={b}>{b}</li>)}
+
+                <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+                  {s.bullets.map((b) => (
+                    <li key={b}>{b}</li>
+                  ))}
                 </ul>
-              </CardContent>
-            </Card>
-          ))}
+              </div>
+            );
+          })}
         </div>
-      </section>
+      </div>
     </main>
   );
 }
