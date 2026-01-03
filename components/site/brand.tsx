@@ -15,7 +15,7 @@ const LOGO_CANDIDATES = [
   "/images/logo.svg",
 ];
 
-export default function Brand({ className = "", compact = false }: BrandProps) {
+export function Brand({ className = "", compact = false }: BrandProps) {
   const [idx, setIdx] = useState(0);
 
   const src = useMemo(() => {
@@ -52,3 +52,9 @@ export default function Brand({ className = "", compact = false }: BrandProps) {
     </Link>
   );
 }
+
+/**
+ * También export default por compatibilidad,
+ * por si algún archivo hace: import Brand from "@/components/site/brand"
+ */
+export default Brand;
