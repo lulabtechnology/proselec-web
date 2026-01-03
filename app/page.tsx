@@ -1,203 +1,64 @@
 import Link from "next/link";
-import Hero from "@/components/sections/Hero";
+import Hero from "@/components/sections/home/Hero";
 import Reveal from "@/components/motion/Reveal";
-import { Button } from "@/components/ui/button";
-import { COMPANY, CONTACT, PROJECTS, SERVICES } from "@/lib/proselec";
-
-function waLink(text: string) {
-  const phone = CONTACT.phoneE164.replace("+", "");
-  return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
-}
-
-export const metadata = {
-  title: "PROSELEC, S.A. | Obras Civiles y Electromecánicas",
-  description: "Obras Civiles, Arquitectura y Obras Electromecánicas en Panamá.",
-};
 
 export default function HomePage() {
-  const telHref = `tel:${CONTACT.phoneE164}`;
-  const whatsappHref = waLink("Hola, quiero una cotización. ¿Me ayudan por favor?");
-
-  const featuredProjects = PROJECTS.slice(0, 6);
-  const featuredServices = SERVICES.slice(0, 6);
-
   return (
     <main>
       <Hero />
 
-      {/* Por qué escogernos */}
-      <section className="py-14">
-        <div className="mx-auto max-w-6xl px-4">
-          <Reveal>
-            <div className="grid gap-8 md:grid-cols-2 md:items-start">
-              <div>
-                <h2 className="text-2xl font-semibold">¿Por qué escogernos?</h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Enfoque técnico, ejecución responsable y comunicación clara. Trabajamos con calidad,
-                  seguridad y confiabilidad en soluciones de ingeniería.
-                </p>
-
-                <div className="mt-5 flex flex-wrap gap-2">
-                  <Button asChild className="rounded-2xl">
-                    <a href={whatsappHref} target="_blank" rel="noreferrer">
-                      Cotizar por WhatsApp
-                    </a>
-                  </Button>
-                  <Button asChild variant="outline" className="rounded-2xl">
-                    <a href={telHref}>Llamar</a>
-                  </Button>
-                </div>
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-2">
-                {[
-                  { t: "Calidad", d: "Estándares de ejecución y acabados." },
-                  { t: "Seguridad", d: "Buenas prácticas y control en sitio." },
-                  { t: "Confiabilidad", d: "Cumplimiento y soporte post-entrega." },
-                  { t: "Capacidad", d: "Civil, arquitectura y electromecánica." },
-                ].map((c, i) => (
-                  <Reveal key={c.t} delay={0.06 * i}>
-                    <div className="rounded-2xl border bg-background/60 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-                      <div className="font-semibold">{c.t}</div>
-                      <div className="mt-1 text-sm text-muted-foreground">{c.d}</div>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
+      <section className="mx-auto max-w-6xl px-4 py-14">
+        <Reveal>
+          <div className="grid gap-6 sm:grid-cols-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="text-sm font-semibold text-slate-900">Calidad & seguridad</div>
+              <p className="mt-2 text-sm text-slate-600">
+                Ejecución responsable con supervisión técnica y control de calidad.
+              </p>
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Servicios */}
-      <section className="border-t bg-muted/20 py-14">
-        <div className="mx-auto max-w-6xl px-4">
-          <Reveal>
-            <div className="mb-6 flex items-end justify-between gap-4">
-              <div>
-                <h2 className="text-2xl font-semibold">Servicios</h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Soluciones completas para proyectos civiles, sanitarios, pluviales y contra incendio.
-                </p>
-              </div>
-              <Link className="text-sm text-primary underline-offset-4 hover:underline" href="/servicios">
-                Ver todos
-              </Link>
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="text-sm font-semibold text-slate-900">Diseño & planos</div>
+              <p className="mt-2 text-sm text-slate-600">
+                Planificación, documentación y soluciones eficientes para tu obra.
+              </p>
             </div>
-          </Reveal>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            {featuredServices.map((s, i) => (
-              <Reveal key={s.title} delay={0.05 * i}>
-                <div className="rounded-2xl border bg-background/70 p-6 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-md">
-                  <div className="text-lg font-semibold">{s.title}</div>
-                  <div className="mt-1 text-sm text-muted-foreground">{s.description}</div>
-                  <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
-                    {s.bullets.slice(0, 3).map((b) => (
-                      <li key={b}>{b}</li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            ))}
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="text-sm font-semibold text-slate-900">Instalaciones</div>
+              <p className="mt-2 text-sm text-slate-600">
+                Eléctrico, fontanería, gas y contra incendio para proyectos de todo tipo.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </Reveal>
 
-      {/* Proyectos */}
-      <section className="py-14">
-        <div className="mx-auto max-w-6xl px-4">
-          <Reveal>
-            <div className="mb-6 flex items-end justify-between gap-4">
+        <Reveal className="mt-12">
+          <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-8 shadow-sm">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="text-2xl font-semibold">Proyectos</h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Una muestra de obras ejecutadas en diversas áreas y ubicaciones.
+                <h2 className="text-xl font-semibold tracking-tight text-slate-900">
+                  Servicios de PROSELEC, S.A.
+                </h2>
+                <p className="mt-2 text-sm text-slate-600">
+                  Conoce todo lo que hacemos: obras civiles, sistemas eléctricos, plomería, gas y contra incendio.
                 </p>
               </div>
-              <Link className="text-sm text-primary underline-offset-4 hover:underline" href="/proyectos">
-                Ver todos
-              </Link>
-            </div>
-          </Reveal>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            {featuredProjects.map((p, i) => (
-              <Reveal key={p.title} delay={0.05 * i}>
+              <div className="flex gap-3">
                 <Link
-                  href="/proyectos"
-                  className="group overflow-hidden rounded-3xl border bg-background shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                  href="/servicios"
+                  className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition"
                 >
-                  <div className="aspect-[16/10] bg-muted">
-                    <img
-                      src={p.image}
-                      alt={p.title}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <div className="font-semibold">{p.title}</div>
-                    <div className="mt-1 text-sm text-muted-foreground">{p.subtitle}</div>
-                  </div>
+                  Ver servicios
                 </Link>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contacto (con mapa embebido) */}
-      <section className="border-t bg-muted/20 py-14">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="grid gap-6 md:grid-cols-2 md:items-start">
-            <Reveal>
-              <div className="rounded-3xl border bg-background/70 p-6 shadow-sm backdrop-blur">
-                <h2 className="text-2xl font-semibold">Contacto</h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Respuesta rápida por WhatsApp. También puedes llamar directamente.
-                </p>
-
-                <div className="mt-4 space-y-2 text-sm text-muted-foreground">
-                  <div>
-                    <span className="font-medium text-foreground">Teléfono:</span> {CONTACT.phoneDisplay}
-                  </div>
-                  <div>
-                    <span className="font-medium text-foreground">Correo:</span> {CONTACT.email}
-                  </div>
-                  <div>
-                    <span className="font-medium text-foreground">Dirección:</span> {COMPANY.address}
-                  </div>
-                </div>
-
-                <div className="mt-5 flex flex-wrap gap-2">
-                  <Button asChild className="rounded-2xl">
-                    <a href={whatsappHref} target="_blank" rel="noreferrer">
-                      Cotizar por WhatsApp
-                    </a>
-                  </Button>
-                  <Button asChild variant="outline" className="rounded-2xl">
-                    <a href={telHref}>Llamar</a>
-                  </Button>
-                  <Button asChild variant="secondary" className="rounded-2xl">
-                    <Link href="/contacto">Ver detalle</Link>
-                  </Button>
-                </div>
+                <Link
+                  href="/contacto"
+                  className="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition"
+                >
+                  Contacto
+                </Link>
               </div>
-            </Reveal>
-
-            <Reveal delay={0.08}>
-              <div className="overflow-hidden rounded-3xl border bg-background shadow-sm">
-                <iframe
-                  title="Mapa PROSELEC"
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(COMPANY.address)}&output=embed`}
-                  className="h-[380px] w-full"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-            </Reveal>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </section>
     </main>
   );
