@@ -1,40 +1,41 @@
-import PageHero from "@/components/shared/page-hero";
+// /app/sobre-nosotros/page.tsx
 import { site } from "@/content/site";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export const metadata = { title: "Sobre nosotros" };
-
-export default function AboutPage() {
+export default function SobreNosotrosPage() {
   return (
-    <main>
-      <PageHero
-        title="Sobre nosotros"
-        subtitle="Empresa panameña fundada en 2011, enfocada en Obras Civiles, Arquitectura y Obras Electromecánicas."
-      />
+    <main className="mx-auto max-w-6xl px-4 py-12">
+      <h1 className="text-3xl font-semibold text-slate-900">Sobre nosotros</h1>
+      <p className="mt-2 text-slate-600">{site.tagline}</p>
 
-      <section className="section">
-        <div className="container grid gap-6 md:grid-cols-2">
-          <Card className="rounded-2xl shadow-soft">
-            <CardHeader>
-              <CardTitle className="font-display">Nuestra empresa</CardTitle>
-            </CardHeader>
-            <CardContent className="text-muted-foreground leading-relaxed">
-              {site.about}
-            </CardContent>
-          </Card>
+      <div className="mt-8 grid gap-6 lg:grid-cols-3">
+        <Card className="rounded-2xl shadow-sm lg:col-span-3">
+          <CardHeader>
+            <CardTitle className="font-display">Nuestra empresa</CardTitle>
+          </CardHeader>
+          <CardContent className="text-muted-foreground leading-relaxed">
+            {site.about}
+          </CardContent>
+        </Card>
 
-          <div className="grid gap-6">
-            <Card className="rounded-2xl shadow-soft">
-              <CardHeader><CardTitle className="font-display">Misión</CardTitle></CardHeader>
-              <CardContent className="text-muted-foreground leading-relaxed">{site.mission}</CardContent>
-            </Card>
-            <Card className="rounded-2xl shadow-soft">
-              <CardHeader><CardTitle className="font-display">Visión</CardTitle></CardHeader>
-              <CardContent className="text-muted-foreground leading-relaxed">{site.vision}</CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+        <Card className="rounded-2xl shadow-sm">
+          <CardHeader>
+            <CardTitle className="font-display">Misión</CardTitle>
+          </CardHeader>
+          <CardContent className="text-muted-foreground leading-relaxed">
+            {site.mission}
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-2xl shadow-sm lg:col-span-2">
+          <CardHeader>
+            <CardTitle className="font-display">Visión</CardTitle>
+          </CardHeader>
+          <CardContent className="text-muted-foreground leading-relaxed">
+            {site.vision}
+          </CardContent>
+        </Card>
+      </div>
     </main>
   );
 }
