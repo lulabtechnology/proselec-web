@@ -9,9 +9,6 @@ export const COMPANY = {
     "Calle Ave. Rodolfo Girón, Santiago Veraguas, Edificio Eléctrico Santiago, Local N° 2.",
 } as const;
 
-// IMPORTANTE:
-// - El cliente pidió dejar SOLO este número.
-// - El correo te lo van a dar luego: deja placeholder y luego lo reemplazas aquí.
 export const CONTACT = {
   phoneDisplay: "6852-7127",
   phoneE164: "+50768527127",
@@ -32,7 +29,7 @@ export type Service = {
     | "Flame"
     | "Building2"
     | "Fan"
-    | "Pipe";
+    | "Pipette"; // ✅ CAMBIO aquí
 };
 
 export const SERVICES: Service[] = [
@@ -54,8 +51,6 @@ export const SERVICES: Service[] = [
     bullets: ["Mantenimiento general", "Adecuaciones técnicas", "Soporte en sitio"],
     icon: "Wrench",
   },
-
-  // ✅ NUEVO (pedido)
   {
     title: "Render y Diseño Arquitectónico",
     description: "Diseño, documentación y visualización 3D para presentar y ejecutar proyectos con claridad.",
@@ -67,31 +62,24 @@ export const SERVICES: Service[] = [
     ],
     icon: "Building2",
   },
-
-  // ✅ NUEVO (pedido)
   {
     title: "Sistemas sanitarios",
     description: "Instalación y adecuaciones sanitarias para edificaciones y obras civiles.",
     bullets: ["Redes sanitarias (aguas negras)", "Acueductos / agua potable", "Instalaciones y pruebas"],
-    icon: "Pipe",
+    icon: "Pipette", // ✅ CAMBIO aquí
   },
-
-  // ✅ NUEVO (pedido)
   {
     title: "Sistemas pluviales",
     description: "Soluciones de drenaje pluvial para captación y conducción eficiente.",
     bullets: ["Drenajes pluviales", "Canalizaciones y bajantes", "Adecuaciones y mantenimiento"],
     icon: "Droplets",
   },
-
   {
     title: "Sistema de gas licuado",
     description: "Instalación y adecuación de redes y equipos de gas según necesidad del proyecto.",
     bullets: ["Instalación y adecuación", "Pruebas y ajustes", "Soporte en sitio"],
     icon: "Fan",
   },
-
-  // ✅ ACTUALIZADO (pedido)
   {
     title: "Sistemas contra incendio",
     description: "Instalación, adecuación y soporte para sistemas húmedos contra incendio.",
@@ -108,7 +96,7 @@ export const SERVICES: Service[] = [
 export type Project = {
   title: string;
   subtitle: string;
-  image: string; // ruta en /public
+  image: string;
 };
 
 export const PROJECTS: Project[] = [
@@ -132,14 +120,11 @@ export const PROJECTS: Project[] = [
     subtitle: "Construcción y acabados",
     image: "/images/projects/project-04.jpg",
   },
-
-  // ✅ ESTA ES LA QUE CAMBIAS por tu foto NUEVA (la 5ta imagen que mandaste)
   {
     title: "Sistema de Drenaje Estadio Ramón Cantera (Aguadulce)",
     subtitle: "Sistema pluvial / drenaje",
     image: "/images/projects/project-drenaje-ramon-cantera.jpg",
   },
-
   {
     title: "Remodelación de Parque Pocrí (Coclé)",
     subtitle: "Mejoras y adecuaciones",
@@ -160,15 +145,11 @@ export const PROJECTS: Project[] = [
     subtitle: "Sanitario, acueducto y contra incendio",
     image: "/images/projects/project-09.jpg",
   },
-
-  // ✅ SWAP pedido:
-  // Esta (Toco Castillo) ahora usa la MISMA imagen que antes tenía “Drenaje” (project-05).
   {
     title: "Proyecto Estadio Toco Castillo: sistema húmedo contra incendio",
     subtitle: "Sistema húmedo contra incendio",
     image: "/images/projects/project-05.jpg",
   },
-
   {
     title: "Proyecto Museo Julio Gomez Ruiz: mejoras al museo",
     subtitle: "Remodelación / mejoras",
