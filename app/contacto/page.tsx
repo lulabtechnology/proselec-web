@@ -1,72 +1,52 @@
-import PageHero from "@/components/shared/page-hero";
-import { contact } from "@/content/site";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import ContactForm from "@/components/contact/contact-form";
-import MapEmbed from "@/components/contact/map-embed";
+// app/contacto/page.tsx
+import ContactForm from "@/components/forms/contact-form";
+import { COMPANY, CONTACT } from "@/lib/proselec";
 
 export const metadata = {
-  title: "Contacto"
+  title: "Contacto | PROSELEC, S.A.",
 };
 
-export default function ContactPage() {
+export default function ContactoPage() {
   return (
-    <main>
-      <PageHero
-        title="Contacto"
-        subtitle="Cotiza o agenda una visita técnica. Respuesta rápida por WhatsApp o correo."
-      />
+    <main className="py-14">
+      <div className="mx-auto max-w-6xl px-4">
+        <h1 className="text-3xl font-semibold">Contacto</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Escríbenos por WhatsApp, llámanos o envíanos un correo.
+        </p>
 
-      <section className="section">
-        <div className="container grid gap-6 md:grid-cols-2">
-          <Card className="rounded-2xl shadow-soft">
-            <CardHeader>
-              <CardTitle className="font-display">Información</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3 text-muted-foreground">
-              <p>
-                <span className="font-medium text-foreground">Teléfonos:</span>{" "}
-                {contact.phones.join(" / ")}
-              </p>
-              <p>
-                <span className="font-medium text-foreground">Dirección:</span>{" "}
-                {contact.address}
-              </p>
-              <p>
-                <span className="font-medium text-foreground">Emails:</span>{" "}
-                {contact.emails.join(" / ")}
-              </p>
-              <p>
-                <span className="font-medium text-foreground">Web:</span>{" "}
-                {contact.web}
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          <div className="rounded-xl border p-6">
+            <div className="space-y-2 text-sm text-muted-foreground">
+              <div><span className="font-medium text-foreground">Teléfono:</span> {CONTACT.phoneDisplay}</div>
+              <div><span className="font-medium text-foreground">Correo:</span> {CONTACT.email}</div>
+              <div><span className="font-medium text-foreground">Dirección:</span> {COMPANY.address}</div>
+              <div><span className="font-medium text-foreground">Web:</span> {COMPANY.website}</div>
+            </div>
+
+            <div className="mt-6">
+              <h2 className="text-lg font-semibold">Formulario</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Completa los datos y se abrirá WhatsApp con el mensaje listo (o correo).
               </p>
 
-              <div className="mt-5 pt-5 border-t">
-                <p className="font-medium text-foreground">Personas de contacto</p>
-                <ul className="mt-2 space-y-2">
-                  {contact.people.map((p) => (
-                    <li key={p.name}>
-                      <span className="font-medium text-foreground">{p.name}</span> —{" "}
-                      {p.role} — {p.phone}
-                    </li>
-                  ))}
-                </ul>
+              <div className="mt-4">
+                <ContactForm />
               </div>
+            </div>
+          </div>
 
-              <div className="mt-5 pt-5 border-t">
-                <p className="font-medium text-foreground">Ubicación</p>
-                <div className="mt-3">
-                  <MapEmbed height={260} />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <ContactForm
-            title="Cotiza aquí"
-            subtitle="Déjanos tu mensaje y se abrirá WhatsApp con el texto listo para enviar."
-          />
+          <div className="overflow-hidden rounded-xl border">
+            <iframe
+              title="Mapa PROSELEC"
+              src={`https://www.google.com/maps?q=${encodeURIComponent(COMPANY.address)}&output=embed`}
+              className="h-[520px] w-full"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
         </div>
-      </section>
+      </div>
     </main>
   );
 }
