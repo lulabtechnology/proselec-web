@@ -1,94 +1,75 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import HeroSlider from "@/components/home/hero-slider";
 import { Button } from "@/components/ui/button";
-
-const SLIDES = [
-  { src: "/images/hero/slide-1.jpg", alt: "Proyecto PROSELEC 1" },
-  { src: "/images/hero/slide-2.jpg", alt: "Proyecto PROSELEC 2" },
-  { src: "/images/hero/slide-3.jpg", alt: "Proyecto PROSELEC 3" },
-];
+import Link from "next/link";
+import { ArrowRight, Phone, MessageCircle } from "lucide-react";
+import { contact, site } from "@/content/site";
+import { telLink, waLink } from "@/lib/links";
+import { motion } from "framer-motion";
 
 export default function Hero() {
-  const slides = useMemo(() => SLIDES, []);
-  const [idx, setIdx] = useState(0);
+  const wa = waLink(contact.whatsappDigits, "Hola, quiero cotizar un proyecto con PROSELEC, S.A.");
 
-  useEffect(() => {
-    const t = setInterval(() => setIdx((p) => (p + 1) % slides.length), 5000);
-    return () => clearInterval(t);
-  }, [slides.length]);
+  // ✅ OJO: rutas con "/" porque están en /public
+  const slides = [
+    {
+      key: "s1",
+      image: "/images/hero/slide-1.jpg",
+      eyebrow: `${site.shortName} · Fundada`,
+      title: "PROYECTOS Y SERVICIOS ELECTROMECÁNICOS, S.A.",
+      subtitle:
+        "Empresa panameña enfocada en obras civiles y electromecánicas. Diseño, planificación, construcción y mantenimiento.",
+    },
+    {
+      key: "s2",
+      image: "/images/hero/slide-2.jpg",
+      eyebrow: "Obras Civiles · Arquitectura · Electromecánica",
+      title: "Ejecución profesional, resultados confiables.",
+      subtitle:
+        "Soluciones integrales para edificios, plazas comerciales, oficinas, parques y naves industriales, cumpliendo tiempos y estándares.",
+    },
+    {
+      key: "s3",
+      image: "/images/hero/slide-3.jpg",
+      eyebrow: "Cotiza hoy",
+      title: "Sistema contra incendios, eléctricos y obras civiles.",
+      subtitle:
+        "Atendemos proyectos a nivel nacional. Contáctanos para evaluar tu requerimiento y prepararte una propuesta formal.",
+    },
+  ];
 
   return (
     <section className="relative overflow-hidden">
-      <div className="relative h-[560px] w-full sm:h-[620px]">
-        {slides.map((s, i) => (
-          <div
-            key={s.src}
-            className={[
-              "absolute inset-0 transition-opacity duration-1000 ease-in-out",
-              i === idx ? "opacity-100" : "opacity-0",
-            ].join(" ")}
-          >
-            <Image
-              src={s.src}
-              alt={s.alt}
-              fill
-              priority={i === 0}
-              sizes="100vw"
-              className="object-cover"
-            />
-          </div>
-        ))}
+      <HeroSlider slides={slides} />
 
-        {/* overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/40 to-white/0" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,.18),transparent_40%)]" />
+      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-10 pt-6">
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="mt-4 flex flex-wrap items-center gap-3"
+        >
+          <Button asChild className="gap-2">
+            <Link href="/contacto">
+              Cotizar <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
 
-        {/* content */}
-        <div className="absolute inset-0">
-          <div className="mx-auto flex h-full max-w-6xl items-center px-4">
-            <div className="max-w-2xl">
-              <p className="mb-3 inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs text-white/90 ring-1 ring-white/15">
-                Obras civiles • Electromecánica • Sistemas especiales
-              </p>
+          <Button asChild variant="outline" className="gap-2">
+            <a href={wa} target="_blank" rel="noreferrer" aria-label="WhatsApp">
+              <MessageCircle className="h-4 w-4" />
+              WhatsApp
+            </a>
+          </Button>
 
-              <h1 className="text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-                Soluciones integrales en construcción e instalaciones
-              </h1>
-
-              <p className="mt-4 text-pretty text-base text-white/85 sm:text-lg">
-                Diseño, ejecución y mantenimiento con enfoque en seguridad, cumplimiento técnico y
-                entrega a tiempo.
-              </p>
-
-              <div className="mt-7 flex flex-wrap gap-3">
-                <Button asChild className="h-11 px-6">
-                  <Link href="/contacto">Cotizar</Link>
-                </Button>
-                <Button asChild variant="outline" className="h-11 px-6 bg-white/10 text-white ring-white/20 hover:bg-white/15">
-                  <Link href="/proyectos">Ver proyectos</Link>
-                </Button>
-              </div>
-
-              {/* mini dots */}
-              <div className="mt-7 flex gap-2">
-                {slides.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setIdx(i)}
-                    className={[
-                      "h-2 w-2 rounded-full transition-all",
-                      i === idx ? "bg-white" : "bg-white/40 hover:bg-white/60",
-                    ].join(" ")}
-                    aria-label={`Ir al slide ${i + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+          <Button asChild variant="outline" className="gap-2">
+            <a href={telLink(contact.phoneE164)} aria-label="Llamar">
+              <Phone className="h-4 w-4" />
+              Llamar
+            </a>
+          </Button>
+        </motion.div>
       </div>
     </section>
   );
