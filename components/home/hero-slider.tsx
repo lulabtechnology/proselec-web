@@ -1,135 +1,116 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import SafeImage from "@/components/shared/safe-image";
-import DiagonalAccent from "@/components/shared/diagonal-accent";
-import { cn } from "@/lib/utils";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Slide = {
   key: string;
-  image: string;
+  image: string; // debe iniciar con "/"
   eyebrow?: string;
   title: string;
   subtitle: string;
 };
 
-export default function HeroSlider({
-  slides,
-  intervalMs = 6500,
-  className
-}: {
-  slides: Slide[];
-  intervalMs?: number;
-  className?: string;
-}) {
-  const [index, setIndex] = useState(0);
-
+export default function HeroSlider({ slides }: { slides: Slide[] }) {
   const safeSlides = useMemo(() => slides.filter(Boolean), [slides]);
-  const active = safeSlides[index % safeSlides.length];
+  const [idx, setIdx] = useState(0);
 
   useEffect(() => {
     if (safeSlides.length <= 1) return;
-    const t = setInterval(() => setIndex((i) => (i + 1) % safeSlides.length), intervalMs);
+    const t = setInterval(() => setIdx((p) => (p + 1) % safeSlides.length), 6500);
     return () => clearInterval(t);
-  }, [safeSlides.length, intervalMs]);
+  }, [safeSlides.length]);
+
+  const current = safeSlides[idx];
+
+  const prev = () => setIdx((p) => (p - 1 + safeSlides.length) % safeSlides.length);
+  const next = () => setIdx((p) => (p + 1) % safeSlides.length);
+
+  if (!current) return null;
 
   return (
-    <div className={cn("relative overflow-hidden", className)}>
-      <div className="absolute inset-0">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active.key}
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <SafeImage src={active.image} alt={active.title} fill className="object-cover" priority />
-            <div className="absolute inset-0 bg-hero" />
-            <DiagonalAccent />
-          </motion.div>
-        </AnimatePresence>
+    <div className="relative min-h-[520px] w-full">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={current.key}
+          initial={{ opacity: 0.0, scale: 1.02 }}
+          animate={{ opacity: 1.0, scale: 1.0 }}
+          exit={{ opacity: 0.0, scale: 1.02 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={current.image}
+            alt={current.title}
+            fill
+            priority={idx === 0}
+            sizes="100vw"
+            className="object-cover"
+          />
+
+          {/* overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/50 to-slate-950/20" />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* texto */}
+      <div className="relative z-10 mx-auto max-w-6xl px-4 pt-16">
+        <motion.div
+          key={`t-${current.key}`}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="max-w-2xl"
+        >
+          {current.eyebrow && (
+            <div className="mb-3 inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/90 ring-1 ring-white/15">
+              {current.eyebrow}
+            </div>
+          )}
+          <h1 className="text-3xl font-semibold tracking-tight text-white md:text-5xl">
+            {current.title}
+          </h1>
+          <p className="mt-4 text-base leading-relaxed text-white/85 md:text-lg">
+            {current.subtitle}
+          </p>
+        </motion.div>
       </div>
 
-      {/* Content overlay */}
-      <div className="relative">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/35 to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/45 to-transparent" />
+      {/* controles */}
+      {safeSlides.length > 1 && (
+        <>
+          <button
+            onClick={prev}
+            className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/10 p-2 text-white ring-1 ring-white/20 backdrop-blur hover:bg-white/20"
+            aria-label="Anterior"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
 
-        {/* Progress bar */}
-        {safeSlides.length > 1 && (
-          <div className="absolute left-0 right-0 top-0 z-10">
-            <div className="h-[2px] bg-white/10" />
-            <motion.div
-              key={`${active.key}-progress`}
-              className="h-[2px] bg-white/70"
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
-              transition={{ duration: intervalMs / 1000, ease: "linear" }}
-            />
-          </div>
-        )}
+          <button
+            onClick={next}
+            className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/10 p-2 text-white ring-1 ring-white/20 backdrop-blur hover:bg-white/20"
+            aria-label="Siguiente"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
 
-        {/* Dots */}
-        {safeSlides.length > 1 && (
-          <div className="absolute bottom-6 right-4 z-10 hidden md:flex items-center gap-2">
+          <div className="absolute bottom-4 left-0 right-0 z-20 flex justify-center gap-2">
             {safeSlides.map((s, i) => (
               <button
                 key={s.key}
-                onClick={() => setIndex(i)}
-                className={cn(
-                  "h-2.5 w-2.5 rounded-full border border-white/40 transition",
-                  i === index ? "bg-white/85" : "bg-white/15 hover:bg-white/30"
-                )}
-                aria-label={`Ir al slide ${i + 1}`}
+                onClick={() => setIdx(i)}
+                className={`h-2 w-2 rounded-full ring-1 ring-white/30 ${
+                  i === idx ? "bg-white" : "bg-white/30"
+                }`}
+                aria-label={`Ir a slide ${i + 1}`}
               />
             ))}
           </div>
-        )}
-
-        {/* Slide text */}
-        <div className="container py-20 md:py-28">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`${active.key}-text`}
-              initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -10, filter: "blur(8px)" }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="max-w-3xl"
-            >
-              {active.eyebrow && (
-                <p className="text-sm text-slate-200/80">{active.eyebrow}</p>
-              )}
-              <h1 className="mt-4 font-display text-4xl md:text-6xl leading-[1.05] text-white">
-                {active.title}
-              </h1>
-              <p className="mt-5 text-slate-200/85 md:text-lg max-w-2xl">
-                {active.subtitle}
-              </p>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Scroll cue */}
-          <motion.div
-            className="mt-10 hidden md:flex items-center gap-3 text-white/70"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-          >
-            <motion.div
-              className="h-10 w-6 rounded-full border border-white/30 grid place-items-center"
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <div className="h-2 w-1 rounded-full bg-white/60" />
-            </motion.div>
-            <span className="text-sm">Desliza para explorar</span>
-          </motion.div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 }
