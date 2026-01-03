@@ -1,59 +1,33 @@
-"use client";
+// app/proyectos/page.tsx
+import { PROJECTS } from "@/lib/proselec";
 
-import PageHero from "@/components/shared/page-hero";
-import { projects } from "@/content/site";
-import Reveal from "@/components/shared/reveal";
-import SafeImage from "@/components/shared/safe-image";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Card } from "@/components/ui/card";
+export const metadata = {
+  title: "Proyectos | PROSELEC, S.A.",
+};
 
-function ProjectCard({ title, idx }: { title: string; idx: number }) {
-  const img = `/images/projects/project-${String(idx + 1).padStart(2, "0")}.jpg`;
-
+export default function ProyectosPage() {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Card className="cursor-pointer overflow-hidden rounded-2xl shadow-soft hover:shadow-glow transition">
-          <div className="relative aspect-[4/3]">
-            <SafeImage src={img} alt={title} fill className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4">
-              <p className="text-white font-medium leading-snug">{title}</p>
-              <p className="mt-1 text-xs text-white/75">Ver detalle</p>
+    <main className="py-14">
+      <div className="mx-auto max-w-6xl px-4">
+        <h1 className="text-3xl font-semibold">Proyectos</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Una muestra de trabajos realizados en distintas áreas y ubicaciones.
+        </p>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {PROJECTS.map((p) => (
+            <div key={p.title} className="overflow-hidden rounded-xl border bg-background">
+              <div className="aspect-[16/10] bg-muted">
+                <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
+              </div>
+              <div className="p-4">
+                <div className="font-semibold">{p.title}</div>
+                <div className="mt-1 text-sm text-muted-foreground">{p.subtitle}</div>
+              </div>
             </div>
-          </div>
-        </Card>
-      </DialogTrigger>
-
-      <DialogContent className="max-w-4xl p-0 overflow-hidden rounded-2xl">
-        <DialogHeader className="p-6 pb-0">
-          <DialogTitle className="font-display">{title}</DialogTitle>
-        </DialogHeader>
-        <div className="relative aspect-[16/9]">
-          <SafeImage src={img} alt={title} fill className="object-cover" />
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-export default function ProjectsPage() {
-  return (
-    <main>
-      <PageHero
-        title="Obras ejecutadas"
-        subtitle="Algunas obras y proyectos ejecutados por PROSELEC, S.A."
-      />
-
-      <section className="section">
-        <div className="container grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((p, idx) => (
-            <Reveal key={p} delay={idx * 0.03}>
-              <ProjectCard title={p} idx={idx} />
-            </Reveal>
           ))}
         </div>
-      </section>
+      </div>
     </main>
   );
 }
