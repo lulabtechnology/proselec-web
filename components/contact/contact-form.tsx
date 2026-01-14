@@ -15,11 +15,12 @@ export default function ContactForm({
   title?: string;
   subtitle?: string;
 }) {
-  const mailto = mailtoLink(
-    contact.emails[1],
-    "Cotización - PROSELEC, S.A.",
-    "Hola, me gustaría cotizar. Detalles:\n\n- Nombre:\n- Teléfono:\n- Ubicación:\n- Servicio:\n- Mensaje:\n"
-  );
+ const mailto = mailtoLink(
+  "hero@proselectpty.com",
+  "Cotización - PROSELEC, S.A.",
+  "Hola, me gustaría cotizar. Detalles:\n\n- Nombre:\n- Teléfono:\n- Ubicación:\n- Servicio:\n- Mensaje:\n"
+);
+
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
